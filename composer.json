@@ -1,0 +1,25 @@
+{
+  "name": "nac/mvc",
+  "type": "library",
+  "description": "The Laravel Framework.",
+  "keywords": [
+    "laravel",
+    "mvc"
+  ],
+  "license": "MIT",
+  "require": {
+    "illuminate/support": "^6.12.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Nac\\Mvc\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Nac\\Mvc\\MvcGenServiceProvider"
+      ]
+    }
+  }
+}

@@ -1,0 +1,112 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use $REPOSITORY_NAMESPACE$\$REPOSITORY_NAME$;
+use Illuminate\Http\Request;
+$EXTEND_NAMESPACE$
+use Illuminate\Support\Facades\Response;
+
+class $NAME$ $EXTEND_NAME$
+{
+  /**
+   * GET /$COLLECTION$
+   *
+   * @param Request $request
+   * @param $REPOSITORY_NAME$ $repository
+   * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+   */
+  public function index(Request $request, $REPOSITORY_NAME$ $repository)
+  {
+    $search = $request->all();
+    $paginate = $repository->index($search);
+    return view('$VIEW$.index', [
+      'paginate' => $paginate,
+      'search' => $search
+    ]);
+  }
+
+  /**
+   * GET /$COLLECTION$/create
+   *
+   * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+   */
+  public function create()
+  {
+    return view('$VIEW$.create');
+  }
+
+  /**
+   * Store a newly created resource in storage.
+   * POST /$COLLECTION$
+   */
+  public function store(Request $request, $REPOSITORY_NAME$ $repository)
+  {
+    try {
+      $result = $repository->store($request->all());
+      return Response::json(['code' => 0, 'message' => 'success', 'data' => $result]);
+    } catch (\Exception $e) {
+      return Response::json(['code' => 500, 'message' => $e->getMessage(), 'data' => []]);
+    }
+  }
+
+  /**
+   * GET /$COLLECTION$/{id}
+   *
+   * @param $REPOSITORY_NAME$ $repository
+   * @param $id
+   * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+   */
+  public function show($REPOSITORY_NAME$ $repository, $id)
+  {
+    $data = $repository->show($id);
+    return view('$VIEW$.detail', ['data' => $data]);
+  }
+
+  /**
+   * GET /$COLLECTION$/{id}/edit
+   *
+   * @param $REPOSITORY_NAME$ $repository
+   * @param $id
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function edit($REPOSITORY_NAME$ $repository, $id)
+  {
+    return view('$VIEW$.create', ['data' => $repository->show($id)]);
+  }
+
+  /**
+   * PUT /$COLLECTION$/{id}
+   *
+   * @param Request $request
+   * @param $REPOSITORY_NAME$ $repository
+   * @param $id
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function update(Request $request, $REPOSITORY_NAME$ $repository, $id)
+  {
+    try {
+      $result = $repository->store($request->all());
+      return Response::json(['code' => 0, 'message' => 'success', 'data' => $result]);
+    } catch (\Exception $e) {
+      return Response::json(['code' => 500, 'message' => $e->getMessage(), 'data' => []]);
+    }
+  }
+
+  /**
+   * DELETE /$COLLECTION$/{id}
+   *
+   * @param $REPOSITORY_NAME$ $repository
+   * @param $id
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function destroy($REPOSITORY_NAME$ $repository, $id)
+  {
+    try {
+      $result = $repository->destroy($id);
+      return Response::json(['code' => 0, 'message' => 'success', 'data' => $result]);
+    } catch (\Exception $e) {
+      return Response::json(['code' => 500, 'message' => $e->getMessage(), 'data' => []]);
+    }
+  }
+}

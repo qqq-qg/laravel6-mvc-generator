@@ -1,0 +1,12 @@
+<?php
+
+namespace $NAMESPACE$;
+
+$EXTEND_NAMESPACE$
+/**
+$PROPERTY$
+ */
+class $NAME$ $EXTEND_NAME$
+{
+  protected $table = '$TABLE$';
+}

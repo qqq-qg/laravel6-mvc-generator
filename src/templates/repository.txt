@@ -1,0 +1,57 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use $MODEL_NAMESPACE$\$MODEL_NAME$;
+use Illuminate\Database\Eloquent\Builder;
+$EXTEND_NAMESPACE$
+class $NAME$ $EXTEND_NAME$
+{
+  public function index($search)
+  {
+    $paginate = $this->searchQuery($MODEL_NAME$::query(), $search)->paginate($search['pageSize'] ?? 15);
+    foreach ($paginate->items() as $k => $item) {
+      //todo
+    }
+    return $paginate;
+  }
+
+  private function searchQuery(Builder $query, $search)
+  {
+    if (!empty($search['status'])) {
+      $query->where('status', $search['status']);
+    }
+    return $query->orderByDesc('id');
+  }
+
+  public function store($data)
+  {
+    if (empty($data['id'])) {
+      $companyModel = $MODEL_NAME$::query()->create($data);
+      if (!$companyModel->id) {
+        throw new \Exception("新增保存失败");
+      }
+    } else {
+      $companyModel = $MODEL_NAME$::query()->where('id', $data['id'])->first();
+      $rst = $companyModel->update($data);
+      if (!$rst) {
+        throw new \Exception("更新保存失败");
+      }
+    }
+    return $companyModel->id;
+  }
+
+  public function show($id)
+  {
+    return $MODEL_NAME$::query()->find($id);
+  }
+
+  public function destroy($id)
+  {
+    $rst = $MODEL_NAME$::query()->where('id', explode(',', $id))->delete();
+    if (!$rst) {
+      throw new \Exception("删除失败");
+    }
+    return $rst;
+  }
+}
